@@ -26,4 +26,24 @@ describe("NFT Collection", function () {
       expect(await nftCollection.owner()).to.equal(owner);
     });
   });
+
+  describe("safe mint", function () {
+    const name = "Test Token";
+    const symbol = "TT";
+    const uri =
+      "https://ipfs.io/ipfs/QmUURppuo9yyyKrNDKxeC5eWG3w8yvZsdvb6wqAYhWBpcf";
+    it("Should mint a token", async function () {
+      const { nftCollection, owner } = await loadFixture(deployFixture);
+      await nftCollection.safeMint(owner.address, uri, name, symbol);
+
+      expect(await nftCollection.ownerOf(0)).to.equal(owner.address);
+    });
+
+    it("Should mint a token emit event", async function () {
+      const { nftCollection, owner } = await loadFixture(deployFixture);
+      await expect(nftCollection.safeMint(owner.address, uri, name, symbol))
+        .to.emit(nftCollection, "CollectionCreated")
+        .withArgs(0, name, symbol, owner.address);
+    });
+  });
 });

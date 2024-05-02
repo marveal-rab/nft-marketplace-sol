@@ -23,7 +23,8 @@ contract NFTCollecitonToken is ERC721, ERC721URIStorage, Ownable {
         uint256 tokenId,
         string name,
         string symbol,
-        address indexed owner
+        address indexed owner,
+        string uri
     );
 
     function safeMint(
@@ -37,7 +38,7 @@ contract NFTCollecitonToken is ERC721, ERC721URIStorage, Ownable {
         _setTokenURI(tokenId, uri);
         collections[tokenId] = Collection(name, symbol, to);
 
-        emit CollectionCreated(tokenId, name, symbol, to);
+        emit CollectionCreated(tokenId, name, symbol, to, uri);
     }
 
     // The following functions are overrides required by Solidity.
